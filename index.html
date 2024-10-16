@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+   <div class="card">
+    <div class="search">
+        <input type="text" placeholder="enter city name" spellcheck="false">
+        <button><img src="images/search.png" alt=""></button>
+    </div>
+    <div class="error">City doesnt exists</div>
+    <div class="weather">
+        <img src="images/rain.png" alt="" class="weather-icon">
+        <h1 class="temp">22°C</h1>
+        <h2 class="city">Uyo</h2>
+        <div class="details">
+            <div class="col">
+                <img src="images/humidity.png" alt="">
+                <div>
+                    <p class="humidity">50%</p>
+                    <p>humidity</p>
+                </div>
+            </div>
+            <div class="col">
+                <img src="images/wind.png" alt="">
+                <div>
+                    <p class="wind">50km/h</p>
+                    <p>Wind Speed</p>
+                </div>
+            </div>
+        </div>
+    </div>
+   </div>
+   <script>
+// const apiKey = "723110f04ed647a589b122337241610";
+// const apiUrl = "http://api.weatherapi.com/v1/current.json?q=Uyo";
+
+// async function checkWeather(){
+//  const response = await fetch(apiUrl + apiKey + "&q=Uyo");
+//  var data = await response.json
+
+//  console.log(data);
+// }
+// checkWeather();
+const apiKey = "f124167ba1f44b038cb152127241610";
+const apiUrl = "http://api.weatherapi.com/v1/current.json";
+
+
+const searchBox = document.querySelector(".search input")
+const searchBtn= document.querySelector(".search button")
+const weatherIcon = document.querySelector(".weather-icon")
+
+
+   async function checkWeather(city) {
+     const response = await fetch(`${apiUrl}?key=${apiKey}&q=${city}`); 
+
+     if(response.status == 404){
+        document.querySelector(".error").style.display = "block";
+        document.querySelector(".weather").style.display = "none";
+
+     } else if (response.status === 400) {
+        document.querySelector(".error").textContent = "Invalid city name or location.";
+        document.querySelector(".error").style.display = "block";
+        document.querySelector(".weather").style.display = "none";
+     }else{
+        var data = await response.json(); // Corrected: await response.json()
+     
+  
+
+
+
+     document.querySelector(".city").innerHTML = data.location.name;
+     document.querySelector(".temp").innerHTML = Math.round(data.current.temp_c)  +"°C";
+     document.querySelector(".humidity").innerHTML = data.current.humidity +"%";
+     document.querySelector(".wind").innerHTML = data.current.wind_kph +" km/h";
+
+    //  if(data.condition[code].current == "1000"){
+    //     weatherIcon.src ="images/clear.png";
+
+    //  }else
+    //  if(data.condition[code].current == "1006, 1003"){
+    //     weatherIcon.src ="images/clouds.png";
+
+    //  }else if(data.condition[code].current == "1063, 1072,1087, 1150, 1153, 1168, 1171, 1180, 1183, 1186, 1189, 1192, 1195, 1198, 1201, 1240, 1243, 1246, 1249, 1252, 1273, 1276, 1279, 1282 "){
+    //     weatherIcon.src ="images/rain.png";
+
+    //  }else if(data.condition[code].current == " 1114, 1117, 1204, 1207, 1210, 1213, 1216, 1219, , 1225, 1237, 1255, 1258, 1261, 1264"){
+    //     weatherIcon.src ="images/snow.png";
+
+    //  }else if(data.condition[code].current == "1030, 1135, 1147"){
+    //     weatherIcon.src ="images/mist.png";
+
+    //  }
+    let weatherCode = data.current.condition.code; // Assuming the code is in data.current.condition.code
+
+if(weatherCode == 1000){
+   weatherIcon.src ="images/clear.png";
+
+}else if([1006, 1003].includes(weatherCode)){
+   weatherIcon.src ="images/clouds.png";
+
+}else if([1063, 1072,1087, 1150, 1153, 1168, 1171, 1180, 1183, 1186, 1189, 1192, 1195, 1198, 1201, 1240, 1243, 1246, 1249, 1252, 1273, 1276, 1279, 1282].includes(weatherCode)){
+   weatherIcon.src ="images/rain.png";
+
+}else if([1114, 1117, 1204, 1207, 1210, 1213, 1216, 1219, , 1225, 1237, 1255, 1258, 1261, 1264].includes(weatherCode)){
+   weatherIcon.src ="images/snow.png";
+
+}
+else if([1030, 1135, 1147].includes(weatherCode)){
+   weatherIcon.src ="images/mist.png";
+
+}
+
+document.querySelector(".weather").style.display = "block"
+document.querySelector(".error").style.display = "none";
+}
+
+   }
+
+   searchBtn.addEventListener("click", ()=>{
+    checkWeather(searchBox.value);
+   })
+ 
+ 
+
+    </script>
+    
+</body>
+</html>
