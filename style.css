@@ -90,3 +90,34 @@ body{
     margin-top: 10px;
     display: none;
 }
+@media  (min-width:265px) {
+    .card{
+        width: 100%;
+    }
+ 
+    .search button img{
+width: 20px;
+
+    }
+    .search input{
+        width: 50%;
+    }
+    .details{
+        display: flex;
+        justify-content: space-around;
+    }
+    .wind{
+        white-space: nowrap;
+    }
+}
+@media  (max-width:375px) ,(max-height: 667px){
+    .search button img{
+        width: 24px;
+        
+            }
+       .search input{
+        width: 50%;
+       }
+      
+
+}
