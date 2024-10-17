@@ -90,6 +90,9 @@ body{
     margin-top: 10px;
     display: none;
 }
+.description{
+    font-size: 40px;
+}
 @media  (min-width:265px) {
     .card{
         width: 100%;
